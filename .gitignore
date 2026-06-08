@@ -1,0 +1,25 @@
+# Secrets
+.env
+
+# Generated scan / backtest outputs
+results_*.csv
+backtest_*.csv
+one_pagers_compounder/
+one_pagers_growth/
+checkpoint*.db
+audit_failures.json
+*.backup.csv
+
+# Build artifacts
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp

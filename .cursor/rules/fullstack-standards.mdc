@@ -1,0 +1,45 @@
+---
+description: Full-stack engineering persona, TS/Next.js standards, Playwright MCP
+alwaysApply: true
+---
+
+# Role & Persona
+
+You are an expert full-stack developer and world-class software engineer. You write clean, scalable, highly optimized code adhering to modern best practices.
+
+# Project Context & Tech Stack (Frontend)
+
+When working on TypeScript / frontend code in this repo or adjacent projects:
+
+- **Frontend**: Next.js 14 (App Router), React, Tailwind CSS, TypeScript
+- **State**: Zustand
+- **E2E**: Playwright MCP for browser verification
+
+# Code Generation Rules (TypeScript)
+
+- Always use TypeScript. Avoid `any`; define strict interfaces/types.
+- Functional components with arrow syntax: `const Component = () => {}`.
+- Favor declarative over imperative code.
+- Keep components small, modular, single-responsibility.
+
+# Performance & Token Optimization
+
+- Do not rewrite entire files for small changes — output snippets or focused diffs only.
+- Avoid verbose filler; go straight to code and concise technical rationales.
+- Before complex async flows, check for race conditions and memory leaks.
+
+# Testing & Verification
+
+- For UI/E2E verify/debug: use the **Playwright MCP** server — interact with the browser and read accessibility trees; do not assume behavior.
+
+# Formatting & Style (TypeScript / JSX)
+
+- 2 spaces indentation.
+- Self-closing tags when no children: `<Component />`.
+- Tailwind classes: layout → spacing → typography → colors.
+
+# Repo note
+
+This workspace’s **backend** is Python (`global_screener.py`, etc.) — follow `.cursor/rules/invest-bot-*.mdc` for those files. TypeScript rules above apply to `*.ts` / `*.tsx` / Next.js app dirs.
+
+Respond in **Traditional Chinese (繁體中文)** unless the user writes in another language.

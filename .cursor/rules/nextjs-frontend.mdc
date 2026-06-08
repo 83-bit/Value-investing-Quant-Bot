@@ -1,0 +1,39 @@
+---
+description: Next.js App Router, React, Tailwind, Zustand conventions
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Next.js 14 Frontend
+
+## Stack
+- App Router (`app/`), Server Components by default; `'use client'` only when needed
+- Tailwind for styling; Zustand for client global state
+- Strict TypeScript — no `any`
+
+## Components
+```tsx
+interface Props {
+  ticker: string;
+  score: number;
+}
+
+const ScoreBadge = ({ ticker, score }: Props) => (
+  <span className="rounded px-2 py-1 text-sm font-medium text-slate-100 bg-emerald-600">
+    {ticker}: {score}
+  </span>
+);
+```
+
+## Patterns
+- Colocate types in `types/` or next to feature modules
+- Data fetching: prefer Server Components + fetch; client mutations via Server Actions or API routes
+- Zustand stores: narrow slices, avoid mirroring server state unnecessarily
+
+## E2E
+- Debug flows with Playwright MCP — snapshot a11y tree before claiming UI works
+
+## Do not
+- Mix Pages Router patterns into App Router without reason
+- Ship components without typed props
+- Rewrite whole pages for one-line fixes

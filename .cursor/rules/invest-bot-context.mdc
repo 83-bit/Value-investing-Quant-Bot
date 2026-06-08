@@ -1,0 +1,53 @@
+---
+description: Invest Bot 專案脈絡、架構、輸出與對外溝通
+alwaysApply: true
+---
+
+# Invest Bot — Project Context
+
+## User & goal
+- 17 歲、香港；作品集 + quant / family office 實習路徑
+- 人脈：Kenith Wong（Pacific Cigar 亞太總監）— 可分享 pipeline 與回測，勿過度吹噴「取代 Morningstar」
+- **Always respond in Traditional Chinese (繁體中文)**
+
+## Core files
+| File | Role |
+|------|------|
+| `global_screener.py` | 主引擎：FMP 財報、quant/qual 評分、LLM 辯論、main() |
+| `partial_rerun.py` | 保留 CSV quant，只重跑 LLM（預設不打 FMP） |
+| `refresh_volume_attention.py` | 只重算 volume Z / attention，寫回 CSV |
+| `backtest_attention.py` | S/A × 珍珠/轉折/neutral 分組回測 |
+| `invest_bot_gui.py` | 視窗版入口；`build_exe.ps1` → `dist/InvestBot.exe` |
+
+## Data & secrets
+- `.env`：`DEEPSEEK_API_KEY`, `FMP_API_KEY` — **never commit**
+- FMP 常 403 → batch 用 yfinance fallback；`fetch_volume_attention(..., fmp_first=False)`
+- `APP_DIR` + `os.chdir(APP_DIR)`：exe 與 script 都在同目錄讀寫 CSV / checkpoint / `.env`
+
+## Scoring (compounder)
+- Quant ~65 + Qual ~50 → total tier S/A/B/C (85/70/50)
+- Volume Attention：`QUANT_CORE_HIGH_MIN=35` → 珍珠 +6 / 轉折 +5
+- Debate when `q_score >= 15`；`JUDGE_USE_TOOLS` must stay **False**
+- Dual mode：`SCREEN_MODE` → `results_compounder.csv`, `results_growth.csv`
+
+## Key CSV columns
+`quant_score`, `qual_score`, `tier`, `investment_thesis`, `llm_parse_ok`, `debate_json`, `volume_z`, `attention_signal`, `volume_attention_score`, `golden_zone`
+
+## Outputs
+- `results_*.csv`, `backtest_*.csv`, `backtest_*_attention.csv`
+- `one_pagers_{mode}/`, `checkpoint_{mode}.db`
+
+## Backtest honesty (mandatory when discussing results)
+- 2Y backtest = **current** tier/signal vs **past** returns — not true point-in-time strategy
+- Prefer **median** over mean (STX/WDC-style outliers)
+- Most S/A groups **did not beat SPY +45%** on median — say so clearly
+- Growth mode thesis often「資料不足」— do not use as primary deliverable
+
+## Common commands
+```powershell
+python global_screener.py
+python partial_rerun.py --mode compounder --limit 10
+python refresh_volume_attention.py --mode both
+python backtest_attention.py --mode compounder
+.\build_exe.ps1
+```

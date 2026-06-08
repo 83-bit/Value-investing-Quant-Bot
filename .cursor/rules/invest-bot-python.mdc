@@ -1,0 +1,43 @@
+---
+description: Invest Bot Python 編碼慣例與修改邊界
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Invest Bot — Python Conventions
+
+## Scope & style
+- **Minimal diffs** — match existing naming, logging, ThreadPoolExecutor patterns
+- Config lives at top of `global_screener.py`; avoid scattering magic numbers
+- Do not add tests/docs unless asked
+
+## API & I/O
+- FMP via `fmp_get()` with 429 backoff; redact API keys in logs
+- yfinance for backtest + volume fallback when FMP fails
+- Partial rerun: `fetch_llm_context_light()` — **no FMP** by default
+- NaN-safe: `volume_attention_score` use `pd.isna()` before `float()` (see `refresh_volume_attention.py`)
+
+## Scoring changes
+- Volume attention: `fetch_volume_attention` → `apply_volume_attention_bonus` → then valuation ±5
+- Pearl vs 轉折 mutually ordered: low Z first, then surge/breakout
+- Updating CSV scores: subtract old `volume_attention_score` before adding new bonus (idempotent)
+
+## LLM
+- Judge: JSON mode via `_call_judge_llm()` / `_parse_llm_json()` — no tool calling on Judge
+- Store full debate in `debate_json` for audit/backtest loops
+- `llm_parse_ok=False` rows need `partial_rerun.py`, not full rescan
+
+## Backtest helpers
+- Use `_extract_close_series` + `_hist_total_return_pct` (handles MultiIndex + NaN Close)
+- `run_backtest`: US only, max 20 tickers/tier
+- `run_backtest_attention_groups`: tier × `潛在珍珠|共識轉折|neutral`
+
+## GUI / PyInstaller
+- Entry: `invest_bot_gui.py`; spec `invest_bot.spec` — `console=False`, icon `assets/invest_bot.ico`
+- Long tasks in **background thread**; redirect stdout to queue (do not block tkinter main loop)
+- Rebuild: `.\build_exe.ps1` (generates icon + onefile exe)
+
+## Do not
+- Commit `.env`, `*.db`, large CSV backups without user request
+- Force-push or amend commits unless user explicitly asks
+- Claim backtest proves alpha without median + methodology caveats

@@ -1,0 +1,7 @@
+python-dotenv
+yfinance
+pandas
+numpy
+requests
+openai
+tenacity
