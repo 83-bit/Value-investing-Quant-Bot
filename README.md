@@ -48,6 +48,11 @@ compliment. Splitting them forces the model to take a position on each.
 scored against later price action — including `audit_thesis.py`, which exists
 purely to find the cases where the thesis was wrong.
 
+> The reasoning behind the thresholds themselves — why E/P and the risk-free
+> rate set the first ruler, which gates a company has to clear, and why the
+> management question can veto a cheap stock — is in
+> [`PHILOSOPHY.md`](PHILOSOPHY.md).
+
 ---
 
 ## Requirements
