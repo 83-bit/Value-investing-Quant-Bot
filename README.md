@@ -1,4 +1,4 @@
-# Invest Bot — Quantamental Global Stock Screener
+# Invest Bot: Quantamental Global Stock Screener
 
 A Python screener that runs a **quantitative first pass** over a global stock
 universe (US · Europe · Japan · Hong Kong · Taiwan), then hands the survivors to
@@ -25,8 +25,8 @@ argue from the filing instead of the headline.
 
 Two screening modes:
 
-- `compounder` — compounding machines: high ROIC, durable capital allocation
-- `growth` — growth breakouts: growth-oriented quantitative thresholds
+- `compounder`: compounding machines: high ROIC, durable capital allocation
+- `growth`: growth breakouts: growth-oriented quantitative thresholds
 
 Set `SCREEN_MODE = "both"` to run both in one pass.
 
@@ -45,12 +45,12 @@ separately, because a single blended prompt reliably produces a single blended
 compliment. Splitting them forces the model to take a position on each.
 
 **Everything is backtestable.** Tiers, attention signals, and theses all get
-scored against later price action — including `audit_thesis.py`, which exists
+scored against later price action, including `audit_thesis.py`, which exists
 purely to find the cases where the thesis was wrong.
 
-> The reasoning behind the thresholds themselves — why E/P and the risk-free
+> The reasoning behind the thresholds themselves: why E/P and the risk-free
 > rate set the first ruler, which gates a company has to clear, and why the
-> management question can veto a cheap stock — is in
+> management question can veto a cheap stock, is in
 > [`PHILOSOPHY.md`](PHILOSOPHY.md).
 
 ---
@@ -87,7 +87,7 @@ cp .env.example .env
 # set DEEPSEEK_API_KEY and FMP_API_KEY
 ```
 
-> `.env` holds secrets — never commit it.
+> `.env` holds secrets. Never commit it.
 
 ---
 
@@ -102,7 +102,7 @@ python invest_bot_gui.py
 Supports full scan, LLM partial rerun, volume refresh, tier backtest and
 attention-group backtest, with live logs streamed into the window.
 
-**CLI — interactive menu**
+**CLI: interactive menu**
 
 ```bash
 python invest_bot_launcher.py
@@ -118,7 +118,7 @@ python invest_bot_launcher.py backtest    # tier backtest
 python invest_bot_launcher.py attention   # attention-group backtest
 ```
 
-**CLI — core engine directly**
+**CLI: core engine directly**
 
 ```bash
 python global_screener.py
@@ -159,7 +159,7 @@ python audit_thesis.py --csv results_compounder.csv --lookback-days 90
 | `backtest_compounder.csv` / `backtest_growth.csv` | Tier backtests |
 | `backtest_*_attention.csv` | Attention-group backtests |
 | `one_pagers_compounder/` / `one_pagers_growth/` | S/A One-Pager Markdown |
-| `checkpoint.db` | SQLite checkpoint — resume after interruption |
+| `checkpoint.db` | SQLite checkpoint. Resume after interruption |
 | `audit_failures.json` | Thesis audit failure cases |
 
 Key CSV columns: `ticker`, `region`, `tier`, `total_score`, `quant_score`,
@@ -204,7 +204,7 @@ Tier thresholds: `S ≥ 85`, `A ≥ 70`, `B ≥ 50`. Default regions: US, EU, JP
 
 Output: `dist\InvestBot.exe` (GUI, no console window). The script installs
 `pyinstaller` and `pillow`, and generates `assets\invest_bot.ico`. Place `.env`
-next to the exe — the app reads and writes CSV, checkpoint and `.env` files from
+next to the exe. The app reads and writes CSV, checkpoint and `.env` files from
 the executable's directory.
 
 ---
@@ -213,4 +213,4 @@ the executable's directory.
 
 For research and education only. Nothing here is investment advice. Verify data
 accuracy, API costs and your local regulations yourself. Investing involves
-risk — you are responsible for your own decisions.
+risk. You are responsible for your own decisions.
